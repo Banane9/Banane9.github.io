@@ -1,0 +1,55 @@
+﻿<html>
+	<head>
+		<meta charset="UTF-8" />
+		<link rel="icon" href="../favicon.ico"/>
+		<link rel="shortcut icon" href="../favicon.ico"/>
+		<link href="../favicon.ico"/>
+		
+		<style>
+			body {
+				background-color: black;
+				color: rgb(250, 250, 250);
+				text-align: center;
+				font-family: "Trajan Pro", serif;
+				font-size: 4.5vmax;
+				font-weight: bold;
+				padding-top: 5vmax;
+			}
+			
+			#time {
+				font-size: 7vmax;
+				font-family: monospace;
+			}
+		</style>
+	</head>
+	<body>
+		<p>Punch Club EU4 Multiplayer Game</p>
+		<p id="time">T</p>
+		
+		<script>
+			var timeElement = document.getElementById("time");
+			
+			var i = 0;
+			var offsets = [ 3, 4 ];
+			var gameDate = Date.UTC(2017, 3, 24, 18, 30);
+			while (gameDate <= Date.now()) {
+				gameDate += offsets[i % 2] * 86400000;
+				++i;
+			}
+			
+			var updateTime = function() {
+				var dif = gameDate - Date.parse(new Date(Date.now()).toUTCString());
+				var days = ("0" + Math.floor(dif / 86400000)).slice(-2);
+				dif %= 86400000;
+				var hours = ("0" + Math.floor(dif / 3600000)).slice(-2);
+				dif %= 3600000;
+				var minutes = ("0" + Math.floor(dif / 60000)).slice(-2);
+				dif %= 60000;
+				var seconds = ("0" + Math.floor(dif / 1000)).slice(-2);
+				timeElement.innerHTML = "T-" + days + ":" + hours + ":" + minutes + ":" + seconds;
+			}
+		
+			setInterval(updateTime, 500);
+		</script>
+	</body>
+</html>
