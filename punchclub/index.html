@@ -51,6 +51,7 @@
 			
 			var updateTime = function() {
 				var dif = gameDate - Date.parse(new Date(Date.now()).toUTCString());
+				var inPast = dif < 0;
 				var days = ("0" + Math.floor(dif / 86400000)).slice(-2);
 				dif %= 86400000;
 				var hours = ("0" + Math.floor(dif / 3600000)).slice(-2);
@@ -58,7 +59,7 @@
 				var minutes = ("0" + Math.floor(dif / 60000)).slice(-2);
 				dif %= 60000;
 				var seconds = ("0" + Math.floor(dif / 1000)).slice(-2);
-				timeElement.innerHTML = "T" + (dif > 0 ? "-" : "+") + days + ":" + hours + ":" + minutes + ":" + seconds;
+				timeElement.innerHTML = "T" + (inPast ? "+" : "-") + days + ":" + hours + ":" + minutes + ":" + seconds;
 			}
 		
 			updateTime();
