@@ -58,7 +58,7 @@
 				var minutes = ("0" + Math.floor(dif / 60000)).slice(-2);
 				dif %= 60000;
 				var seconds = ("0" + Math.floor(dif / 1000)).slice(-2);
-				timeElement.innerHTML = "T-" + days + ":" + hours + ":" + minutes + ":" + seconds;
+				timeElement.innerHTML = "T" + (dif > 0 ? "-" : "+") + days + ":" + hours + ":" + minutes + ":" + seconds;
 			}
 		
 			updateTime();
