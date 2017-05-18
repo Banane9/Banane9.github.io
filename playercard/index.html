@@ -1,0 +1,149 @@
+﻿<html>
+	<head>
+		<title>Player Title Card Generator!</title>
+		
+		<meta charset="UTF-8" />
+		
+		<link rel="icon" href="../favicon.ico"/>
+		<link rel="shortcut icon" href="../favicon.ico"/>
+		<link href="../favicon.ico"/>
+		
+		<style>
+			@font-face {
+				font-family: "Trajan Pro";
+				font-weight: regular;
+				src: url("./TrajanPro-Regular.ttf");
+			}
+			
+			body {
+				background-color: rgb(200, 200, 200);
+				color: rgb(25, 25, 25);
+				text-align: center;
+				font-family: "Trajan Pro", serif;
+				font-size: 4.5vmax;
+				font-weight: bold;
+				padding-top: 5vmax;
+			}
+			
+			td {
+				padding-left: 15px;
+				text-align: center;
+			}
+			
+			form {
+				font-size: 1vmax;
+			}
+			
+			form p {
+				font-size: 2vmax;
+				text-decoration: underline;
+			}
+			
+			form img {
+				vertical-align: middle;
+			}
+			
+			form table {
+				margin: auto;
+			}
+			
+			#time {
+				font-size: 7vmax;
+				font-family: monospace;
+			}
+		</style>
+	</head>
+	<body>
+		<p>Player Title Card Generator</p>
+		
+		<form>
+			<p>Details</p>
+			
+			<table>
+				<tr>
+					<td><img height="30" id="govt"/></td>
+					<td><label for="name">Name</label></td>
+					<td><input type="text" id="name" placeholder="Your Name" maxlength="32" size="36"/></td>
+				</tr>
+				<tr>
+					<td><img id="admimg" src="./img/powers/adm.png"/></td>
+					<td><label for="adm">Administrative Skill</label></td>
+					<td><input type="number" id="adm" maxlength="1" size="2" min="0" value="3" max="6"/></td>
+				</tr>
+				<tr>
+					<td><img id="dipimg" src="./img/powers/dip.png"/></td>
+					<td><label for="dip">Diplomatic Skill</label></td>
+					<td><input type="number" id="dip" maxlength="1" size="2" min="0" value="3" max="6"/></td>
+				</tr>
+				<tr>
+					<td><img id="milimg" src="./img/powers/mil.png"/></td>
+					<td><label for="mil">Military Skill</label></td>
+					<td><input type="number" id="mil" maxlength="1" size="2" min="0" value="3" max="6"/></td>
+				</tr>
+			</table>
+		</form>
+		
+		<canvas height="674" width="539" id="canvas">
+			<p>Get a modern Browser ffs.</p>
+		</canvas>
+		
+		<p style="font-size: 2vmax;"><a href="https://twitch.tv/Banane9TV">Check our stream!</a></p>
+		
+		<script>
+			var govts = [ "monarchy", "republic", "tribal", "nomad", "theocracy" ];
+			document.getElementById("govt").src = "./img/govts/" + govts[Math.floor(Math.random() * govts.length)] + ".png";
+			
+			var form = {
+				name: document.getElementById("name"),
+				adm: document.getElementById("adm"),
+				dip: document.getElementById("dip"),
+				mil: document.getElementById("mil")
+			};
+			
+			var powers = {
+				adm: document.getElementById("admimg"),
+				dip: document.getElementById("dipimg"),
+				mil: document.getElementById("milimg")
+			};
+			
+			context = document.getElementById("canvas").getContext("2d");
+			context.font = "24px Trajan Pro";
+			context.strokeStyle = "#BD864A";
+			context.fillStyle = "#BD864A";
+			context.lineWidth = 1.5;
+			
+			base = context.createImageData(1, 1);
+			
+			var bg = new Image();
+			bg.onload = function() {
+				context.drawImage(this, 0, 0);
+				context.drawImage(powers.adm, 108, 209);
+				context.drawImage(powers.dip, 238, 209);
+				context.drawImage(powers.mil, 368, 209);
+				
+				context.beginPath();
+				context.moveTo(89.5, 275.5);
+				context.lineTo(449.5, 275.5);
+				context.stroke();
+				
+				base = context.getImageData(0, 0, 539, 674);
+			}
+			bg.src = "./img/background.png";
+			
+			var updateCanvas = function() {
+				context.putImageData(base, 0, 0);
+				
+				context.textAlign = "center";
+				context.fillText(form.name.value, 265, 122);
+				
+				context.fillText(form.adm.value, 153, 234);
+				context.fillText(form.dip.value, 283, 234);
+				context.fillText(form.mil.value, 413, 234);
+			};
+			
+			for (let input in form) {
+				form[input].onchange = updateCanvas;
+			}
+		</script>
+	</body>
+</html>
