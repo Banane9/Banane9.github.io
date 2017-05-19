@@ -34,18 +34,21 @@
 				font-size: 1vmax;
 			}
 			
-			form p {
+			form span {
 				font-size: 2vmax;
-				text-decoration: underline;
+				
+				padding-left: 64px;
+				padding-right: 64px;
+				border-bottom: 2px solid;
 			}
 			
 			form img {
 				vertical-align: middle;
-				height: 30px;
+				height: 1.8vmax;
 			}
 			
 			form table {
-				margin: auto;
+				margin: 32px auto;
 			}
 			
 			#time {
@@ -58,7 +61,7 @@
 		<p>Player Title Card Generator</p>
 		
 		<form>
-			<p>Details</p>
+			<span>Details</span>
 			
 			<table>
 				<tr>
@@ -105,15 +108,15 @@
 			</table>
 		</form>
 		
-		<canvas height="674" width="539" id="canvas">
+		<canvas width="539" height="674" id="canvas">
 			<p>Get a modern Browser ffs.</p>
 		</canvas>
 		
 		<p style="font-size: 2vmax;"><a href="https://twitch.tv/Banane9TV">Check our stream!</a></p>
 		
+		<!-- Data Stuff -->
 		<script>
 			var govts = [ "monarchy", "republic", "tribal", "nomad", "theocracy" ];
-			document.getElementById("govt").src = "./img/govts/" + govts[Math.floor(Math.random() * govts.length)] + ".png";
 			
 			var personalities = [
 				[ "none", "None" ],
@@ -166,12 +169,70 @@
 				personalitiesImg[personalitiesImg.length] = img;
 			}
 			
+			var form = {
+				name: function() { return document.getElementById("name").value; },
+				
+				adm: function() { return document.getElementById("adm").value; },
+				dip: function() { return document.getElementById("dip").value; },
+				mil: function() { return document.getElementById("mil").value; },
+				
+				personality1: function() { return personalitiesImg[document.getElementById("personality1").selectedIndex]; },
+				personality2: function() { return personalitiesImg[document.getElementById("personality2").selectedIndex]; },
+				personality3: function() { return personalitiesImg[document.getElementById("personality3").selectedIndex]; },
+			};
+			
+			var powers = {
+				adm: document.getElementById("admimg"),
+				dip: document.getElementById("dipimg"),
+				mil: document.getElementById("milimg")
+			};
+		</script>
+		
+		<!-- Functionality -->
+		<script>
+			document.getElementById("govt").src = "./img/govts/" + govts[Math.floor(Math.random() * govts.length)] + ".png";
+			
+			// Sizes/Coordinates given as x, y / width, height
+			var layout = { };
+			layout.fullSize = [ 539, 674 ];
+			
+			layout.innerSize = [ 458, 481 ];
+			layout.innerOffset = [ 38, 139 ];
+			
+			layout.name = [ 265, 122 ];
+			
+			layout.adm = [ layout.innerOffset[0] + 67, layout.innerOffset[1] + 32 ];
+			layout.dip = [ layout.adm[0] + 64 + 66, layout.adm[1] ];
+			layout.mil = [ layout.dip[0] + 64 + 66, layout.dip[1] ];
+			
+			layout.admText = [ layout.adm[0] + 48, layout.adm[1] + 25 ];
+			layout.dipText = [ layout.dip[0] + 48, layout.dip[1] + 25 ];
+			layout.milText = [ layout.mil[0] + 48, layout.mil[1] + 25 ];
+			
+			layout.divider1start = [ layout.innerOffset[0] + 48 + 1.5, layout.adm[1] + 32 + 32 + 1.5 ];
+			layout.divider1end = [ layout.innerOffset[0] + layout.innerSize[0] - 48 - 1.5, layout.divider1start[1] ];
+			
+			var updateCanvas = function() {
+				context.putImageData(base, 0, 0);
+				
+				context.fillText(form.name(), layout.name[0], layout.name[1]);
+				
+				context.fillText(form.adm(), layout.admText[0], layout.admText[1]);
+				context.fillText(form.dip(), layout.dipText[0], layout.dipText[1]);
+				context.fillText(form.mil(), layout.milText[0], layout.milText[1]);
+				
+				context.drawImage(form.personality1(), 105, 294);
+				context.drawImage(form.personality2(), 235, 294);
+				context.drawImage(form.personality3(), 365, 294);
+			};
+			
 			for (var i = 1; i <= 3; ++i)
 			{
 				var select = document.getElementById("personality" + i);
 				select.personalityImg = document.getElementById("personality" + i + "img");
 				select.onchange = function() {
 					this.personalityImg.src = personalitiesImg[this.selectedIndex].src;
+					updateCanvas();
 				}
 				
 				for (var p = 0; p < personalities.length; ++p) {
@@ -184,23 +245,16 @@
 				select.personalityImg.src = personalitiesImg[select.selectedIndex].src;
 			}
 			
-			var form = {
-				name: document.getElementById("name"),
-				adm: document.getElementById("adm"),
-				dip: document.getElementById("dip"),
-				mil: document.getElementById("mil")
-			};
-			
-			var powers = {
-				adm: document.getElementById("admimg"),
-				dip: document.getElementById("dipimg"),
-				mil: document.getElementById("milimg")
-			};
+			document.getElementById("name").onchange = updateCanvas;
+			document.getElementById("adm").onchange = updateCanvas;
+			document.getElementById("dip").onchange = updateCanvas;
+			document.getElementById("mil").onchange = updateCanvas;
 			
 			context = document.getElementById("canvas").getContext("2d");
 			context.font = "24px Trajan Pro";
 			context.strokeStyle = "#BD864A";
 			context.fillStyle = "#BD864A";
+			context.textAlign = "center";
 			context.lineWidth = 1.5;
 			
 			base = context.createImageData(1, 1);
@@ -208,33 +262,21 @@
 			var bg = new Image();
 			bg.onload = function() {
 				context.drawImage(this, 0, 0);
-				context.drawImage(powers.adm, 108, 209);
-				context.drawImage(powers.dip, 238, 209);
-				context.drawImage(powers.mil, 368, 209);
+				
+				context.drawImage(powers.adm, layout.adm[0], layout.adm[1]);
+				context.drawImage(powers.dip, layout.dip[0], layout.dip[1]);
+				context.drawImage(powers.mil, layout.mil[0], layout.mil[1]);
 				
 				context.beginPath();
-				context.moveTo(89.5, 275.5);
-				context.lineTo(449.5, 275.5);
+				context.moveTo(layout.divider1start[0], layout.divider1start[1]);
+				context.lineTo(layout.divider1end[0], layout.divider1end[1]);
 				context.stroke();
 				
 				base = context.getImageData(0, 0, 539, 674);
+			
+				updateCanvas();
 			}
 			bg.src = "./img/background.png";
-			
-			var updateCanvas = function() {
-				context.putImageData(base, 0, 0);
-				
-				context.textAlign = "center";
-				context.fillText(form.name.value, 265, 122);
-				
-				context.fillText(form.adm.value, 153, 234);
-				context.fillText(form.dip.value, 283, 234);
-				context.fillText(form.mil.value, 413, 234);
-			};
-			
-			for (let input in form) {
-				form[input].onchange = updateCanvas;
-			}
 		</script>
 	</body>
 </html>
