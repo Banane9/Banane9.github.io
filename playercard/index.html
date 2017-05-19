@@ -50,11 +50,6 @@
 			form table {
 				margin: 32px auto;
 			}
-			
-			#time {
-				font-size: 7vmax;
-				font-family: monospace;
-			}
 		</style>
 	</head>
 	<body>
@@ -65,7 +60,12 @@
 			
 			<table>
 				<tr>
-					<td><img id="govt"/></td>
+					<td>
+						<img id="govt"/>
+						<!--<select style="background-image: url(./img/govts/republic.png); background-size:contain; width:64px;">
+							<option style="background-image: url(./img/govts/monarchy.png); background-size: contain;"> </option>
+						</select>-->
+					</td>
 					<td><label for="name">Name</label></td>
 					<td><input type="text" id="name" placeholder="Your Name" maxlength="32" size="36"/></td>
 				</tr>
@@ -105,6 +105,16 @@
 					<td><label for="personality3">Personality 3</label></td>
 					<td><select id="personality3" /></td>
 				</tr>
+				<tr>
+					<td colspan="3"><br/></td>
+				</tr>
+				<tr>
+					<td/>
+					<td><label for="quote">Quote</label></td>
+					<td>
+						<textarea id="quote" cols="30" rows="3" placeholder="Your Quote" wrap="hard"></textarea>
+					</td>
+				</tr>
 			</table>
 		</form>
 		
@@ -114,10 +124,8 @@
 		
 		<p style="font-size: 2vmax;"><a href="https://twitch.tv/Banane9TV">Check our stream!</a></p>
 		
-		<!-- Data Stuff -->
+		<!-- Long Data Stuff -->
 		<script>
-			var govts = [ "monarchy", "republic", "tribal", "nomad", "theocracy" ];
-			
 			var personalities = [
 				[ "none", "None" ],
 				[ "architectural_visionary", "Architectural Visionary" ],
@@ -162,12 +170,658 @@
 				[ "zealot", "Zealot" ]
 			];
 			
+			var tagNames = [
+				[ "MRE", "Marehan" ],
+				[ "MJE", "Majeerteen" ],
+				[ "WAR", "Warsangali" ],
+				[ "HOB", "Hobyo" ],
+				[ "GLE", "Geledi" ],
+				[ "KAF", "Kaffa" ],
+				[ "MED", "Medri Bahri" ],
+				[ "HAR", "Harar" ],
+				[ "AFA", "Aussa" ],
+				[ "ALO", "Alodia" ],
+				[ "PTE", "Pate" ],
+				[ "DAR", "Darfur" ],
+				[ "CSU", "Cusco" ],
+				[ "CCQ", "Calchaqui" ],
+				[ "MPC", "Mapuche" ],
+				[ "MCA", "Muisca" ],
+				[ "QTO", "Quito" ],
+				[ "CJA", "Cajamarca" ],
+				[ "HJA", "Huyla" ],
+				[ "PTG", "Potiguara" ],
+				[ "TPQ", "Tupiniquim" ],
+				[ "TUA", "Tapuia" ],
+				[ "GUA", "Guarani" ],
+				[ "CUA", "Charrua" ],
+				[ "WKA", "Wanka" ],
+				[ "CYA", "Chachapoya" ],
+				[ "CLA", "Colla" ],
+				[ "CRA", "Charca" ],
+				[ "PCJ", "Pacajes" ],
+				[ "TPA", "Tupinamba" ],
+				[ "ARW", "Arawak" ],
+				[ "TID", "Tidore" ],
+				[ "TER", "Ternate" ],
+				[ "MGD", "Maguindanao" ],
+				[ "LUW", "Luwu" ],
+				[ "LNO", "Lanao" ],
+				[ "LFA", "Lanfang" ],
+				[ "BNJ", "Banjar" ],
+				[ "KUT", "Kutai" ],
+				[ "BTN", "Buton" ],
+				[ "CMI", "Miao" ],
+				[ "CYI", "Yi" ],
+				[ "CDL", "Dali" ],
+				[ "CHH", "Chahar" ],
+				[ "NDO", "Ndongo" ],
+				[ "ANU", "Ainu" ],
+				[ "ADA", "Adal" ],
+				[ "ADE", "Yemen" ],
+				[ "AKK", "Aq Qoyunlu" ],
+				[ "ALB", "Albania" ],
+				[ "ALG", "Algiers" ],
+				[ "ALH", "Haasa" ],
+				[ "ALS", "Alsace" ],
+				[ "AMG", "Armagnac" ],
+				[ "ANH", "Anhalt" ],
+				[ "ANN", "Annam" ],
+				[ "ANS", "Ansbach" ],
+				[ "ARA", "Aragon" ],
+				[ "ARK", "Arakan" ],
+				[ "ARM", "Armenia" ],
+				[ "ASH", "Ashanti" ],
+				[ "ASS", "Assam" ],
+				[ "AST", "Astrakhan" ],
+				[ "ATH", "Athens" ],
+				[ "ATJ", "Aceh" ],
+				[ "AUV", "Auvergne" ],
+				[ "AVI", "Avignon" ],
+				[ "AYU", "Ayutthaya" ],
+				[ "AZT", "Aztec" ],
+				[ "BAD", "Baden" ],
+				[ "BLI", "Bali" ],
+				[ "BAN", "Banten" ],
+				[ "BAL", "Baluchistan" ],
+				[ "BAV", "Bavaria" ],
+				[ "BEI", "Brunei" ],
+				[ "BEN", "Benin" ],
+				[ "BHU", "Bhutan" ],
+				[ "BIJ", "Bijapur" ],
+				[ "BND", "Bundelkhand" ],
+				[ "BNG", "Bengal" ],
+				[ "BOH", "Bohemia" ],
+				[ "BOS", "Bosnia" ],
+				[ "BOU", "Bourbonnais" ],
+				[ "BRA", "Brandenburg" ],
+				[ "BRB", "Brabant" ],
+				[ "BRE", "Bremen" ],
+				[ "BRI", "Brittany" ],
+				[ "BRR", "Berar" ],
+				[ "BRU", "Brunswick" ],
+				[ "BRZ", "Brazil" ],
+				[ "BUL", "Bulgaria" ],
+				[ "BUR", "Burgundy" ],
+				[ "CAN", "Canada" ],
+				[ "CAS", "Castile" ],
+				[ "CAT", "Catalonia" ],
+				[ "CEP", "Corfu" ],
+				[ "CHA", "Champa" ],
+				[ "CHE", "Cherokee" ],
+				[ "CHG", "Chagatai" ],
+				[ "CHK", "Champasak" ],
+				[ "CHL", "Chile" ],
+				[ "CHM", "Chimu" ],
+				[ "CHP", "Champagne" ],
+				[ "CND", "Candar" ],
+				[ "COL", "Colombia" ],
+				[ "CNN", "Clanricarde" ],
+				[ "COR", "Corsica" ],
+				[ "CRE", "Creek" ],
+				[ "CRI", "Crimea" ],
+				[ "CRN", "Cornwall" ],
+				[ "CRO", "Croatia" ],
+				[ "CRT", "Crete" ],
+				[ "CYP", "Cyprus" ],
+				[ "DAI", "Dai Viet" ],
+				[ "DAN", "Denmark" ],
+				[ "DAU", "Dauphine" ],
+				[ "DLH", "Delhi" ],
+				[ "DUL", "Dulkadir" ],
+				[ "DUR", "Durrani" ],
+				[ "ENG", "England" ],
+				[ "ETH", "Ethiopia" ],
+				[ "FER", "Ferrara" ],
+				[ "FEZ", "Fez" ],
+				[ "FIN", "Finland" ],
+				[ "FLA", "Flanders" ],
+				[ "FOI", "Foix" ],
+				[ "FRA", "France" ],
+				[ "FRI", "Friesland" ],
+				[ "GBR", "Great Britain" ],
+				[ "GDW", "Gondwana" ],
+				[ "GEL", "Gelre" ],
+				[ "GEN", "Genoa" ],
+				[ "GEO", "Georgia" ],
+				[ "GER", "Germany" ],
+				[ "GOL", "Great Horde" ],
+				[ "GOT", "Gotland" ],
+				[ "GRA", "Granada" ],
+				[ "GRE", "Greece" ],
+				[ "GUJ", "Gujarat" ],
+				[ "GUY", "Gascony" ],
+				[ "HAB", "Austria" ],
+				[ "HAI", "Hainaut" ],
+				[ "HAM", "Hamburg" ],
+				[ "HAN", "Hannover" ],
+				[ "HAU", "Hausa" ],
+				[ "HED", "Hejaz" ],
+				[ "HES", "Hesse" ],
+				[ "HOL", "Holland" ],
+				[ "HUN", "Hungary" ],
+				[ "HUR", "Huron" ],
+				[ "INC", "Inca" ],
+				[ "IRE", "Ireland" ],
+				[ "IRO", "Iroquois" ],
+				[ "ITA", "Italy" ],
+				[ "JAP", "Japan" ],
+				[ "KAR", "Karaman" ],
+				[ "KAZ", "Kazan" ],
+				[ "KBO", "Kanem Bornu" ],
+				[ "KHA", "Mongolia" ],
+				[ "KHD", "Khandesh" ],
+				[ "KHI", "Khiva" ],
+				[ "KHM", "Khmer" ],
+				[ "KLE", "Cleves" ],
+				[ "KNI", "The Knights" ],
+				[ "KOK", "Kokkand" ],
+				[ "KOL", "Cologne" ],
+				[ "KON", "Kongo" ],
+				[ "KOR", "Korea" ],
+				[ "KRK", "Carnatic" ],
+				[ "KSH", "Kashmir" ],
+				[ "KUR", "Kurland" ],
+				[ "KZH", "Kazakh" ],
+				[ "LAN", "Florence" ],
+				[ "LAP", "La Plata" ],
+				[ "LEI", "Leinster" ],
+				[ "LIE", "Liege" ],
+				[ "LIT", "Lithuania" ],
+				[ "LNA", "Lan Na" ],
+				[ "LOA", "Loango" ],
+				[ "LOR", "Lorraine" ],
+				[ "LOU", "Louisiana" ],
+				[ "LUA", "Luang Prabang" ],
+				[ "LUN", "Lüneburg" ],
+				[ "LUX", "Luxembourg" ],
+				[ "LXA", "Lan Xang" ],
+				[ "MAD", "Madurai" ],
+				[ "MAG", "Magdeburg" ],
+				[ "MAI", "Mainz" ],
+				[ "MAL", "Mali" ],
+				[ "MAM", "Mamluks" ],
+				[ "MAN", "Mantua" ],
+				[ "MAY", "Maya" ],
+				[ "MAZ", "Mazovia" ],
+				[ "MCH", "Manchu" ],
+				[ "MEX", "Mexico" ],
+				[ "MKL", "Mecklenburg" ],
+				[ "MKS", "Makassar" ],
+				[ "MLC", "Malacca" ],
+				[ "MLO", "Milan" ],
+				[ "MLW", "Malwa" ],
+				[ "MNG", "Ming" ],
+				[ "MNS", "Thomond" ],
+				[ "MOD", "Modena" ],
+				[ "MOE", "Morea" ],
+				[ "MOL", "Moldavia" ],
+				[ "MON", "Montenegro" ],
+				[ "MOR", "Morocco" ],
+				[ "MOS", "Muscovy" ],
+				[ "MTR", "Mataram" ],
+				[ "MUG", "Mughals" ],
+				[ "MUN", "Münster" ],
+				[ "MYS", "Mysore" ],
+				[ "NAJ", "Najd" ],
+				[ "NAV", "Navarra" ],
+				[ "NAX", "Naxos" ],
+				[ "NED", "Netherlands" ],
+				[ "NEV", "Nevers" ],
+				[ "NOG", "Nogai" ],
+				[ "NOL", "Northumberland" ],
+				[ "NOR", "Norway" ],
+				[ "NOV", "Novgorod" ],
+				[ "NPL", "Nepal" ],
+				[ "NRM", "Normandy" ],
+				[ "NUB", "Funj" ],
+				[ "ODH", "Oudh" ],
+				[ "OIR", "Oirat" ],
+				[ "OLD", "Oldenburg" ],
+				[ "OMA", "Oman" ],
+				[ "ORI", "Orissa" ],
+				[ "ORL", "Orleans" ],
+				[ "OYO", "Oyo" ],
+				[ "PAL", "The Palatinate" ],
+				[ "PAP", "The Papal State" ],
+				[ "PAR", "Parma" ],
+				[ "PAT", "Pattani" ],
+				[ "PEG", "Pegu" ],
+				[ "PER", "Persia" ],
+				[ "PEU", "Peru" ],
+				[ "PIC", "Picardy" ],
+				[ "PIS", "Pisa" ],
+				[ "POL", "Poland" ],
+				[ "POM", "Pomerania" ],
+				[ "POR", "Portugal" ],
+				[ "PRO", "Provence" ],
+				[ "PRU", "Prussia" ],
+				[ "PSK", "Pskov" ],
+				[ "PUN", "Punjab" ],
+				[ "QAR", "Qara Qoyunlu" ],
+				[ "QAS", "Qasim" ],
+				[ "QUE", "Quebec" ],
+				[ "RAG", "Ragusa" ],
+				[ "RAJ", "Rajputana" ],
+				[ "REB", "Rebels" ],
+				[ "RIG", "Riga" ],
+				[ "RUS", "Russia" ],
+				[ "RYA", "Ryazan" ],
+				[ "RYU", "Ryukyu" ],
+				[ "SAR", "Sardinia" ],
+				[ "SAV", "Savoy" ],
+				[ "SAX", "Saxony" ],
+				[ "SCO", "Scotland" ],
+				[ "SER", "Serbia" ],
+				[ "SHA", "Shawnee" ],
+				[ "SHL", "Holstein" ],
+				[ "SHR", "Sharjah" ],
+				[ "SHY", "Uzbek" ],
+				[ "SIB", "Sibir" ],
+				[ "SIC", "Sicily" ],
+				[ "SIE", "Siena" ],
+				[ "SIL", "Silesia" ],
+				[ "SLZ", "Salzburg" ],
+				[ "SND", "Sind" ],
+				[ "SOF", "Segu" ],
+				[ "SON", "Songhai" ],
+				[ "SPA", "Spain" ],
+				[ "SST", "Shan" ],
+				[ "STY", "Styria" ],
+				[ "SUL", "Sulu" ],
+				[ "SWE", "Sweden" ],
+				[ "SWI", "Switzerland" ],
+				[ "TAU", "Taungu" ],
+				[ "TEU", "Teutonic Order" ],
+				[ "THU", "Thuringia" ],
+				[ "TIB", "Tibet" ],
+				[ "TIM", "Timurids" ],
+				[ "TIR", "Tirol" ],
+				[ "TOK", "Tonkin" ],
+				[ "TOU", "Toulouse" ],
+				[ "TRA", "Transylvania" ],
+				[ "TRE", "Trebizond" ],
+				[ "TRI", "Trier" ],
+				[ "TRP", "Tripoli" ],
+				[ "TRV", "Travanacore" ],
+				[ "TUN", "Tunis" ],
+				[ "TUR", "Ottomans" ],
+				[ "TUS", "Tuscany" ],
+				[ "TVE", "Tver" ],
+				[ "TYR", "Tyrone" ],
+				[ "UKR", "Ruthenia" ],
+				[ "URB", "Urbino" ],
+				[ "USA", "United States" ],
+				[ "UTR", "Utrecht" ],
+				[ "WAL", "Wallachia" ],
+				[ "WBG", "Wurzburg" ],
+				[ "VEN", "Venice" ],
+				[ "VIE", "Vientiane" ],
+				[ "VIJ", "Vijayanagar" ],
+				[ "WLS", "Wales" ],
+				[ "WUR", "Wurttemberg" ],
+				[ "YAR", "Yaroslavl" ],
+				[ "YOR", "Andhra" ],
+				[ "ZAP", "Zapotec" ],
+				[ "ZAZ", "Zaporozhie" ],
+				[ "ZIM", "Mutapa" ],
+				[ "NIZ", "Deva Bengal" ],
+				[ "BAS", "Ahmadnagar" ],
+				[ "NAT", "Natives" ],
+				[ "PIR", "Pirates" ],
+				[ "AMA", "Amago" ],
+				[ "ASA", "Asakura" ],
+				[ "CSK", "Chosokabe" ],
+				[ "DTE", "Date" ],
+				[ "HJO", "Hojo" ],
+				[ "HSK", "Hosokawa" ],
+				[ "HTK", "Hatakeyama" ],
+				[ "IKE", "Ikeda" ],
+				[ "IMG", "Imagawa" ],
+				[ "MAE", "Maeda" ],
+				[ "MRI", "Mori" ],
+				[ "ODA", "Oda" ],
+				[ "OTM", "Otomo" ],
+				[ "OUC", "Ouchi" ],
+				[ "SBA", "Shiba" ],
+				[ "SMZ", "Shimazu" ],
+				[ "TKD", "Takeda" ],
+				[ "TKG", "Tokugawa" ],
+				[ "UES", "Uesugi" ],
+				[ "YMN", "Yamana" ],
+				[ "JNP", "Jaunpur" ],
+				[ "MAW", "Marwar" ],
+				[ "MER", "Mewar" ],
+				[ "MUL", "Multan" ],
+				[ "JAN", "Jangladesh" ],
+				[ "GRJ", "Garjat" ],
+				[ "GWA", "Gwalior" ],
+				[ "DHU", "Dhundhar" ],
+				[ "KLN", "Keladi" ],
+				[ "MAB", "Malabar" ],
+				[ "MEW", "Mewat" ],
+				[ "BST", "Bastar" ],
+				[ "JSL", "Jaisalmer" ],
+				[ "KAC", "Kachar" ],
+				[ "KMT", "Koch" ],
+				[ "KGR", "Kangra" ],
+				[ "KAT", "Kathiawar" ],
+				[ "KOC", "Kochin" ],
+				[ "AHM", "Ahmednagar" ],
+				[ "BAH", "Bahmanis" ],
+				[ "NAG", "Nagpur" ],
+				[ "BDA", "Baroda" ],
+				[ "GOC", "Golkonda" ],
+				[ "MAR", "Marathas" ],
+				[ "VND", "Venad" ],
+				[ "DEC", "Deccan" ],
+				[ "CZH", "Zhou" ],
+				[ "CSH", "Shun" ],
+				[ "CXI", "Xi" ],
+				[ "JOL", "Jolof" ],
+				[ "PLC", "Commonwealth" ],
+				[ "PRM", "Perm" ],
+				[ "CEY", "Ceylon" ],
+				[ "AFG", "Afghanistan" ],
+				[ "QNG", "Qing" ],
+				[ "ABE", "Abenaki" ],
+				[ "APA", "Apache" ],
+				[ "ASI", "Assiniboine" ],
+				[ "BLA", "Blackfoot" ],
+				[ "CAD", "Caddo" ],
+				[ "CHI", "Chickasaw" ],
+				[ "CHO", "Choctaw" ],
+				[ "CHY", "Cheyenne" ],
+				[ "COM", "Comanche" ],
+				[ "FOX", "Fox" ],
+				[ "ILL", "Illiniwek" ],
+				[ "LEN", "Lenape" ],
+				[ "MIK", "Mikmaq" ],
+				[ "MMI", "Miami" ],
+				[ "MAH", "Mahican" ],
+				[ "NAH", "Navajo" ],
+				[ "OJI", "Ojibwe" ],
+				[ "OSA", "Osage" ],
+				[ "OTT", "Ottawa" ],
+				[ "PAW", "Pawnee" ],
+				[ "PEQ", "Pequot" ],
+				[ "PIM", "Pima" ],
+				[ "POT", "Potawatomi" ],
+				[ "POW", "Powhatan" ],
+				[ "PUE", "Pueblo" ],
+				[ "SIO", "Sioux" ],
+				[ "SHO", "Shoshone" ],
+				[ "SUS", "Susquehannock" ],
+				[ "WCR", "Cree" ],
+				[ "ZAN", "Kilwa" ],
+				[ "AJU", "Ajuuraan" ],
+				[ "MBA", "Mombasa" ],
+				[ "MDI", "Mogadishu" ],
+				[ "MLI", "Malindi" ],
+				[ "SFA", "Sofala" ],
+				[ "EGY", "Egypt" ],
+				[ "BUK", "Bukhara" ],
+				[ "BGA", "Baglana" ],
+				[ "BGL", "Bagelkhand" ],
+				[ "CHD", "Chanda" ],
+				[ "CMP", "Rewa Kantha" ],
+				[ "GHR", "Garhwal" ],
+				[ "HAD", "Hadoti" ],
+				[ "JAJ", "Habsan" ],
+				[ "JFN", "Jaffna" ],
+				[ "LDK", "Ladakh" ],
+				[ "MLB", "Manipur" ],
+				[ "NGA", "Nagaur" ],
+				[ "NGP", "Jharkhand" ],
+				[ "PTA", "Patiala" ],
+				[ "RMP", "Rohilkhand" ],
+				[ "SDY", "Sadiya" ],
+				[ "TPR", "Tripura" ],
+				[ "TRT", "Tirhut" ],
+				[ "CIR", "Circassia" ],
+				[ "GAZ", "Gazikumukh" ],
+				[ "IME", "Imereti" ],
+				[ "TAB", "Tabarestan" ],
+				[ "MYR", "Yeren" ],
+				[ "MHX", "Haixi" ],
+				[ "KRC", "Korchin" ],
+				[ "KLK", "Khalkha" ],
+				[ "DGL", "Maldives" ],
+				[ "HMI", "Kara Del" ],
+				[ "ZUN", "Zunghar" ],
+				[ "KAS", "Yarkand" ],
+				[ "KSD", "Khoshuud" ],
+				[ "SYG", "Sarig Yogir" ],
+				[ "UTS", "U-tsang" ],
+				[ "KAM", "Kham" ],
+				[ "GUG", "Guge" ],
+				[ "TMB", "Timbuktu" ],
+				[ "AIR", "Air" ],
+				[ "MSI", "Mossi" ],
+				[ "KTS", "Katsina" ],
+				[ "KAN", "Kano" ],
+				[ "FUL", "Fulo" ],
+				[ "BON", "Bonoman" ],
+				[ "DAH", "Dahomey" ],
+				[ "DGB", "Dagbon" ],
+				[ "JNN", "Jenné" ],
+				[ "KBU", "Kaabu" ],
+				[ "KNG", "Kong" ],
+				[ "NUP", "Nupe" ],
+				[ "YAO", "Yao" ],
+				[ "YAT", "Yatenga" ],
+				[ "ZAF", "Macina" ],
+				[ "ZZZ", "Zazzau" ],
+				[ "ARD", "Ardalan" ],
+				[ "BHT", "Bohtan" ],
+				[ "ERE", "Eretna" ],
+				[ "LEB", "Lebanon" ],
+				[ "MAK", "Makuria" ],
+				[ "SHM", "Shammar" ],
+				[ "ARB", "Arabia" ],
+				[ "GRM", "Germiyan" ],
+				[ "MPH", "Muan Phuang" ],
+				[ "LIG", "Ligor" ],
+				[ "JOH", "Johor" ],
+				[ "KED", "Kedah" ],
+				[ "PRK", "Perak" ],
+				[ "HSE", "Hsenwi" ],
+				[ "MYA", "Mong Yang" ],
+				[ "AVA", "Ava" ],
+				[ "FEO", "Theodoro" ],
+				[ "VOL", "Galicia–Volhynia" ],
+				[ "KIE", "Kiev" ],
+				[ "CHR", "Chernigov" ],
+				[ "CHU", "Chukchi" ],
+				[ "HOD", "Khodynt" ],
+				[ "CHV", "Chavchuveny" ],
+				[ "KMC", "Kamchadals" ],
+				[ "BRT", "Buryatia" ],
+				[ "BSH", "Bashkiria" ],
+				[ "TLC", "Tlemcen" ],
+				[ "MZB", "Mzab" ],
+				[ "TGT", "Touggourt" ],
+				[ "GHD", "Djerid" ],
+				[ "FZA", "Fezzan" ],
+				[ "KBA", "Kabylia" ],
+				[ "SOS", "Sus" ],
+				[ "TFL", "Tafilalt" ],
+				[ "ARP", "Arapaho" ],
+				[ "CNK", "Chinook" ],
+				[ "COC", "Cocomes" ],
+				[ "XIU", "Xiu" ],
+				[ "HDA", "Haida" ],
+				[ "ITZ", "Itza" ],
+				[ "KIC", "Kiche" ],
+				[ "KIO", "Kiowa" ],
+				[ "MIX", "Mixtec" ],
+				[ "SAL", "Salish" ],
+				[ "TAR", "Tarascan" ],
+				[ "TLA", "Tlapanec" ],
+				[ "TLX", "Tlaxcala" ],
+				[ "TOT", "Totonac" ],
+				[ "WIC", "Wichita" ],
+				[ "CLM", "Colima" ],
+				[ "BLM", "Blambangan" ],
+				[ "CRB", "Cirebon" ],
+				[ "DMK", "Demak" ],
+				[ "PGR", "Pagarruyung" ],
+				[ "PLB", "Palembang" ],
+				[ "PSA", "Pasai" ],
+				[ "SAK", "Siak" ],
+				[ "SUN", "Sunda" ],
+				[ "MJZ", "Jianzhou" ],
+				[ "SRV", "Shirvan" ],
+				[ "MIN", "Min" ],
+				[ "YUE", "Yue" ],
+				[ "SHU", "Shu" ],
+				[ "NNG", "Ning" ],
+				[ "CHC", "Chu" ],
+				[ "TNG", "Tang" ],
+				[ "QIC", "Qi" ],
+				[ "YAN", "Yan" ],
+				[ "JIN", "Jin" ],
+				[ "LNG", "Liang" ],
+				[ "HUA", "Huai" ],
+				[ "CGS", "Changsheng" ],
+				[ "CAB", "Carib" ],
+				[ "LON", "León" ],
+				[ "ICM", "Ichma" ],
+				[ "NUM", "Nuremberg" ],
+				[ "AUS", "Australia" ],
+				[ "BTI", "Semien" ],
+				[ "MTH", "Meath" ],
+				[ "ADU", "Andalusia" ],
+				[ "MEM", "Memmingen" ],
+				[ "VER", "Verden" ],
+				[ "NSA", "Nassau" ],
+				[ "RVA", "Ravensburg" ],
+				[ "MFA", "Montferrat" ],
+				[ "LUC", "Lucca" ],
+				[ "LVA", "Livonia" ],
+				[ "EST", "Estonia" ],
+				[ "SMI", "Sapmi" ],
+				[ "ORM", "Hormuz" ],
+				[ "KRL", "Karelia" ],
+				[ "JAI", "Malta" ],
+				[ "KUB", "Kuba" ],
+				[ "KLD", "Kalundwe" ],
+				[ "YAK", "Yaka" ],
+				[ "KZB", "Kazembe" ],
+				[ "KIK", "Kikondja" ],
+				[ "CKW", "Chokwe" ],
+				[ "LND", "Lunda" ],
+				[ "LUB", "Luba" ],
+				[ "KSJ", "Kasanje" ],
+				[ "SYO", "Soyo" ],
+				[ "TYO", "Tyo" ],
+				[ "BSG", "Busoga" ],
+				[ "BNY", "Bunyoro" ],
+				[ "KRW", "Karagwe" ],
+				[ "BUG", "Buganda" ],
+				[ "RWA", "Rwanda" ],
+				[ "NKO", "Nkore" ],
+				[ "BUU", "Burundi" ],
+				[ "UBH", "Buha" ],
+				[ "MRA", "Maravi" ],
+				[ "LDU", "Lundu" ],
+				[ "TBK", "Tumbuka" ],
+				[ "MKU", "Makua" ],
+				[ "RZW", "Butua" ],
+				[ "MIR", "Imerina" ],
+				[ "ANT", "Antemoro" ],
+				[ "SKA", "Sakalava" ],
+				[ "MFY", "Mahafaly" ],
+				[ "BTS", "Betsimisaraka" ],
+				[ "ULS", "Ulster" ],
+				[ "DMS", "Desmond" ],
+				[ "KID", "Kildare" ],
+				[ "SLN", "Sligo" ],
+				[ "OKA", "Odoyev" ],
+				[ "ICE", "Iceland" ],
+				[ "SLO", "Nitra" ],
+				[ "HSC", "Gaeldom" ],
+				[ "ROM", "Roman Empire" ],
+				[ "DTT", "Dithmarschen" ],
+				[ "GLH", "Golden Horde" ],
+				[ "BEJ", "Beja" ],
+				[ "JIM", "Jimma" ],
+				[ "WLY", "Welayta" ],
+				[ "DAM", "Damot" ],
+				[ "HDY", "Hadiya" ],
+				[ "SOA", "Shewa" ],
+				[ "JJI", "Janjiro" ],
+				[ "ENA", "Ennarea" ],
+				[ "ABB", "Dongola" ],
+				[ "AKM", "Akamatsu" ],
+				[ "AKT", "Ando" ],
+				[ "CBA", "Chiba" ],
+				[ "ISK", "Isshiki" ],
+				[ "ITO", "Ito" ],
+				[ "KKC", "Kikuchi" ],
+				[ "KNO", "Kono" ],
+				[ "OGS", "Ogasawara" ],
+				[ "SHN", "Shoni" ],
+				[ "STK", "Satake" ],
+				[ "TKI", "Toki" ],
+				[ "UTN", "Utsunomiya" ],
+				[ "TTI", "Tsutsui" ],
+				[ "ASK", "Ashikaga" ]
+			];
+		</script>
+		
+		<!-- Short Data Stuff -->
+		<script>
+			var govts = [ "monarchy", "republic", "tribal", "nomad", "theocracy" ];
+			
 			var personalitiesImg = [ ];
 			for (var p = 0; p < personalities.length; ++p) {
 				var img = new Image();
 				img.src = "./img/personalities/" + personalities[p][0] + ".png";
 				personalitiesImg[personalitiesImg.length] = img;
 			}
+			
+			var tagsImg = [ ];
+			for (var t = 0; t < tagNames.length; ++t) {
+				var img = new Image();
+				img.src = "./img/flags/" + tagNames[t][0] + ".png";
+				tagsImg[tagsImg.length] = img;
+			}
+			
+			var shieldOverlaySoft = new Image();
+			shieldOverlaySoft.src = "./img/shield_overlay_soft.png";
+			
+			var shieldOverlayHard = new Image();
+			shieldOverlayHard.onload = function() {
+				var tempCanvas = document.createElement("canvas");
+				var tempContext = tempCanvas.getContext("2d");
+				tempCanvas.width = 152;
+				tempCanvas.height = 152;
+				
+				tempContext.drawImage(this, 0, 0);
+				this.imageData = tempContext.getImageData(0, 0, 152, 152);
+			};
+			shieldOverlayHard.src = "./img/shield_overlay_hard.png";
 			
 			var form = {
 				name: function() { return document.getElementById("name").value; },
@@ -179,6 +833,10 @@
 				personality1: function() { return personalitiesImg[document.getElementById("personality1").selectedIndex]; },
 				personality2: function() { return personalitiesImg[document.getElementById("personality2").selectedIndex]; },
 				personality3: function() { return personalitiesImg[document.getElementById("personality3").selectedIndex]; },
+				
+				country: function() { return tagNames[document.getElementById("country").selectedIndex][1]; },
+				
+				quote: function() { return document.getElementById("quote").value; }
 			};
 			
 			var powers = {
@@ -186,11 +844,6 @@
 				dip: document.getElementById("dipimg"),
 				mil: document.getElementById("milimg")
 			};
-		</script>
-		
-		<!-- Functionality -->
-		<script>
-			document.getElementById("govt").src = "./img/govts/" + govts[Math.floor(Math.random() * govts.length)] + ".png";
 			
 			// Sizes/Coordinates given as x, y / width, height
 			var layout = { };
@@ -205,12 +858,69 @@
 			layout.dip = [ layout.adm[0] + 64 + 66, layout.adm[1] ];
 			layout.mil = [ layout.dip[0] + 64 + 66, layout.dip[1] ];
 			
-			layout.admText = [ layout.adm[0] + 48, layout.adm[1] + 25 ];
-			layout.dipText = [ layout.dip[0] + 48, layout.dip[1] + 25 ];
-			layout.milText = [ layout.mil[0] + 48, layout.mil[1] + 25 ];
+			layout.admText = [ layout.adm[0] + 32 + 16, layout.adm[1] + 25 ];
+			layout.dipText = [ layout.dip[0] + 32 + 16, layout.dip[1] + 25 ];
+			layout.milText = [ layout.mil[0] + 32 + 16, layout.mil[1] + 25 ];
 			
 			layout.divider1start = [ layout.innerOffset[0] + 48 + 1.5, layout.adm[1] + 32 + 32 + 1.5 ];
 			layout.divider1end = [ layout.innerOffset[0] + layout.innerSize[0] - 48 - 1.5, layout.divider1start[1] ];
+			
+			layout.personality1 = [ layout.innerOffset[0] + 67, layout.divider1end[1] + 1.5 + 32 ];
+			layout.personality2 = [ layout.personality1[0] + 64 + 66, layout.personality1[1] ];
+			layout.personality3 = [ layout.personality2 [0] + 64 + 66, layout.personality2[1] ];
+			
+			layout.divider2aStart = [ layout.innerOffset[0] + 16 + 1.5, layout.personality1[1] + 64 + 32 + 1.5 ];
+			layout.divider2aEnd = [ layout.innerOffset[0] + layout.innerSize[0] - 16 - 1.5, layout.divider2aStart[1] ];
+			
+			layout.divider2bStart = [ layout.divider2aStart[0], layout.divider2aStart[1] + 8 ];
+			layout.divider2bEnd = [ layout.divider2aEnd[0], layout.divider2bStart[1] ];
+			
+			layout.shield = [ layout.innerOffset[0] + 32, layout.divider2bStart[1] + 48 ];
+			layout.country = [ layout.name[0], layout.fullSize[1] - 22 ];
+			
+			layout.quote = [ layout.innerOffset[0] + layout.innerSize[0] - 144, layout.divider2bStart[1] + 1.5 + 32 + 40 ];
+		</script>
+		
+		<!-- Functionality -->
+		<script>
+			document.getElementById("govt").src = "./img/govts/" + govts[Math.floor(Math.random() * govts.length)] + ".png";
+			
+			form.shield = function() {
+				var tagIndex = 2;//document.getElementById("country").selectedIndex;
+				
+				var tempCanvas = document.createElement("canvas");
+				var tempContext = tempCanvas.getContext("2d");
+				tempCanvas.width = 152;
+				tempCanvas.height = 152;
+				
+				tempContext.drawImage(tagsImg[tagIndex], 31, 33, 91, 91);
+				var imgData = tempContext.getImageData(0, 0, 152, 152);
+				var shieldImg = shieldOverlayHard.imageData.data;
+				
+				for (var y = 0; y < 152; ++y) {
+					for (var x = 0; x < 152; ++x) {
+						if (x >= 41 && y >= 32 && x < 112 && y < 113)
+							continue;
+						
+						if (x >= 38 && y >= 49 && x < 115 && y < 89)
+							continue;
+						
+						if (x >= 57 && y >= 113 && x < 96 && y < 124)
+							continue;
+						
+						var i = (y * 152 + x) * 4;
+						imgData.data[i] = shieldImg[i];
+						imgData.data[i + 1] = shieldImg[i + 1];
+						imgData.data[i + 2] = shieldImg[i + 2];
+						imgData.data[i + 3] = shieldImg[i + 3];
+					}
+				}
+				
+				tempContext.putImageData(imgData, 0, 0);
+				tempContext.drawImage(shieldOverlaySoft, 0, 0);
+				
+				return tempCanvas;
+			}
 			
 			var updateCanvas = function() {
 				context.putImageData(base, 0, 0);
@@ -221,9 +931,23 @@
 				context.fillText(form.dip(), layout.dipText[0], layout.dipText[1]);
 				context.fillText(form.mil(), layout.milText[0], layout.milText[1]);
 				
-				context.drawImage(form.personality1(), 105, 294);
-				context.drawImage(form.personality2(), 235, 294);
-				context.drawImage(form.personality3(), 365, 294);
+				context.drawImage(form.personality1(), layout.personality1[0], layout.personality1[1]);
+				context.drawImage(form.personality2(), layout.personality2[0], layout.personality2[1]);
+				context.drawImage(form.personality3(), layout.personality3[0], layout.personality3[1]);
+				
+				context.drawImage(form.shield(), layout.shield[0], layout.shield[1]);
+				context.fillText("Test Land", layout.country[0], layout.country[1]);
+				
+				var i = 1;
+				context.fillText("« Quote »", layout.quote[0], layout.quote[1]);
+				context.save();
+				context.font = "18px Trajan Pro";
+				for (let line of form.quote().split("\n")) {
+					context.fillText(line, layout.quote[0], layout.quote[1] + i * 28);
+					++i;
+				}
+				
+				context.restore();
 			};
 			
 			for (var i = 1; i <= 3; ++i)
@@ -249,6 +973,7 @@
 			document.getElementById("adm").onchange = updateCanvas;
 			document.getElementById("dip").onchange = updateCanvas;
 			document.getElementById("mil").onchange = updateCanvas;
+			document.getElementById("quote").onchange = updateCanvas;
 			
 			context = document.getElementById("canvas").getContext("2d");
 			context.font = "24px Trajan Pro";
@@ -270,6 +995,12 @@
 				context.beginPath();
 				context.moveTo(layout.divider1start[0], layout.divider1start[1]);
 				context.lineTo(layout.divider1end[0], layout.divider1end[1]);
+				
+				context.moveTo(layout.divider2aStart[0], layout.divider2aStart[1]);
+				context.lineTo(layout.divider2aEnd[0], layout.divider2aEnd[1]);
+				
+				context.moveTo(layout.divider2bStart[0], layout.divider2bStart[1]);
+				context.lineTo(layout.divider2bEnd[0], layout.divider2bEnd[1]);
 				context.stroke();
 				
 				base = context.getImageData(0, 0, 539, 674);
