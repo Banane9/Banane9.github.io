@@ -73,6 +73,14 @@
 					<td colspan="3"><br/></td>
 				</tr>
 				<tr>
+					<td><img id="countryImg"/></td>
+					<td><label for="country">Country</label></td>
+					<td><select id="country"/></td>
+				</tr>
+				<tr>
+					<td colspan="3"><br/></td>
+				</tr>
+				<tr>
 					<td><img id="admimg" src="./img/powers/adm.png"/></td>
 					<td><label for="adm">Administrative Skill</label></td>
 					<td><input type="number" id="adm" maxlength="1" size="2" min="0" value="3" max="6"/></td>
@@ -109,7 +117,7 @@
 					<td colspan="3"><br/></td>
 				</tr>
 				<tr>
-					<td/>
+					<td><img src="./img/quote.png"/></td>
 					<td><label for="quote">Quote</label></td>
 					<td>
 						<textarea id="quote" cols="30" rows="3" placeholder="Your Quote" wrap="hard"></textarea>
@@ -171,6 +179,7 @@
 			];
 			
 			var tagNames = [
+				[ "REB", "Observer" ],
 				[ "MRE", "Marehan" ],
 				[ "MJE", "Majeerteen" ],
 				[ "WAR", "Warsangali" ],
@@ -803,7 +812,7 @@
 			
 			var tagsImg = [ ];
 			for (var t = 0; t < tagNames.length; ++t) {
-				var img = new Image();
+				img = new Image();
 				img.src = "./img/flags/" + tagNames[t][0] + ".png";
 				tagsImg[tagsImg.length] = img;
 			}
@@ -820,6 +829,8 @@
 				
 				tempContext.drawImage(this, 0, 0);
 				this.imageData = tempContext.getImageData(0, 0, 152, 152);
+				
+				document.getElementById("countryImg").src = form.shield().toDataURL();
 			};
 			shieldOverlayHard.src = "./img/shield_overlay_hard.png";
 			
@@ -886,7 +897,7 @@
 			document.getElementById("govt").src = "./img/govts/" + govts[Math.floor(Math.random() * govts.length)] + ".png";
 			
 			form.shield = function() {
-				var tagIndex = 2;//document.getElementById("country").selectedIndex;
+				var tagIndex = document.getElementById("country").selectedIndex;
 				
 				var tempCanvas = document.createElement("canvas");
 				var tempContext = tempCanvas.getContext("2d");
@@ -936,7 +947,7 @@
 				context.drawImage(form.personality3(), layout.personality3[0], layout.personality3[1]);
 				
 				context.drawImage(form.shield(), layout.shield[0], layout.shield[1]);
-				context.fillText("Test Land", layout.country[0], layout.country[1]);
+				context.fillText(form.country(), layout.country[0], layout.country[1]);
 				
 				var i = 1;
 				context.fillText("« Quote »", layout.quote[0], layout.quote[1]);
@@ -967,6 +978,21 @@
 				}
 				
 				select.personalityImg.src = personalitiesImg[select.selectedIndex].src;
+			}
+			
+			var countrySelect = document.getElementById("country");
+			countrySelect.onchange = function() {
+				var countryImg = document.getElementById("countryImg");
+				countryImg.src = form.shield().toDataURL();
+				
+				updateCanvas();
+			}
+			
+			for (var c = 0; c < tagNames.length; ++c) {
+				var option = document.createElement("option");
+				option.text = tagNames[c][1];
+				
+				countrySelect.add(option);
 			}
 			
 			document.getElementById("name").onchange = updateCanvas;
