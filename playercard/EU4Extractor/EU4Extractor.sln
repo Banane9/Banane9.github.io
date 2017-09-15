@@ -1,0 +1,39 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.26228.9
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EU4Extractor", "EU4Extractor\EU4Extractor.csproj", "{EBBDBF6C-58BC-45A5-892B-E5A797010290}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DDSReader", "dds-reader\DDSReader\DDSReader.csproj", "{E8E2E010-DA59-4A99-8331-B986B84C0FD2}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{88EC946A-EE3C-4858-89AA-1DEF7C6968BB}"
+	ProjectSection(SolutionItems) = preProject
+		RequiredFiles.md = RequiredFiles.md
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TargaImage", "TargaImage\TargaImage.csproj", "{56F4BD87-2404-4263-80D5-6FA2161EB0A4}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{EBBDBF6C-58BC-45A5-892B-E5A797010290}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EBBDBF6C-58BC-45A5-892B-E5A797010290}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EBBDBF6C-58BC-45A5-892B-E5A797010290}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EBBDBF6C-58BC-45A5-892B-E5A797010290}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E8E2E010-DA59-4A99-8331-B986B84C0FD2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E8E2E010-DA59-4A99-8331-B986B84C0FD2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E8E2E010-DA59-4A99-8331-B986B84C0FD2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E8E2E010-DA59-4A99-8331-B986B84C0FD2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{56F4BD87-2404-4263-80D5-6FA2161EB0A4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{56F4BD87-2404-4263-80D5-6FA2161EB0A4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{56F4BD87-2404-4263-80D5-6FA2161EB0A4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{56F4BD87-2404-4263-80D5-6FA2161EB0A4}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

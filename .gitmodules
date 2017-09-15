@@ -1,0 +1,3 @@
+[submodule "playercard/EU4Extractor/dds-reader"]
+	path = playercard/EU4Extractor/dds-reader
+	url = https://github.com/andburn/dds-reader
